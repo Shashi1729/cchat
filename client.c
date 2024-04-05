@@ -33,11 +33,16 @@ void startListeningAndPrintMessagesOnNewThread(int socketFD)
 }
 
 //The client sends messages on one thread and receives broadcasted messages back on a different thread
-void main()
+int main(int args, char** argv)
 {
+if (args != 2){
+	printf("[ERROR] Invalid usage!\n\nExample Usage:\n\t%s <IP_ADDR>\n\n", argv[0]);
+	return -1;
+}
  int result;
  int socketFD = createTCPIpv4Socket(); 
- struct sockaddr_in *address = createIPv4Address("127.0.0.1",port);
+ //struct sockaddr_in *address = createIPv4Address("127.0.0.1",port);
+ struct sockaddr_in *address = createIPv4Address(argv[1],port);
  //struct sockaddr_in *address = createIPv4Address("103.174.70.38",port);
 if ((result = connect(socketFD,(struct sockaddr *)address, sizeof(*address)))<0) {
         perror("Connection failed");
